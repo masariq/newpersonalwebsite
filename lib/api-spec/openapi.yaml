@@ -10,6 +10,8 @@ servers:
 tags:
   - name: health
     description: Health operations
+  - name: contact
+    description: Contact form submissions
 paths:
   /healthz:
     get:
@@ -24,6 +26,49 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /contact:
+    post:
+      operationId: submitContact
+      tags: [contact]
+      summary: Send a portfolio contact message
+      description: Validates and emails a visitor's contact form submission.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ContactMessageInput"
+      responses:
+        "200":
+          description: Message sent
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ContactSubmissionResponse"
+        "400":
+          description: Invalid submission
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "429":
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "503":
+          description: Email delivery is not configured
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "500":
+          description: Message could not be sent
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
 components:
   schemas:
     HealthStatus:
@@ -33,4 +78,74 @@ components:
           type: string
       required:
         - status
+    ContactMessageInput:
+      type: object
+      additionalProperties: false
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 120
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        service:
+          type: string
+          enum:
+            - Content & Video
+            - Social Media Management
+            - Website
+            - Full Partner
+            - Contract Work
+            - Not sure yet
+        project:
+          type: string
+          minLength: 1
+          maxLength: 5000
+        timeline:
+          type: string
+          enum:
+            - ASAP
+            - Within a month
+            - Flexible
+        budget:
+          type: string
+          enum:
+            - Under $300
+            - $300-$600
+            - $600-$1,000
+            - $1,000+
+            - Not sure yet
+        referenceLinks:
+          type: string
+          maxLength: 1000
+        website:
+          type: string
+          maxLength: 200
+      required:
+        - name
+        - email
+        - service
+        - project
+        - timeline
+        - budget
+        - website
+    ContactSubmissionResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+      required:
+        - success
+        - message
+    ApiError:
+      type: object
+      properties:
+        error:
+          type: string
+      required:
+        - error
 

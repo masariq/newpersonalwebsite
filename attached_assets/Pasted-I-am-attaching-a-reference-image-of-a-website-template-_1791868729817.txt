@@ -1,0 +1,98 @@
+I am attaching a reference image of a website template (a surf camp site). Use it ONLY as visual inspiration for layout rhythm, spacing, rounded shapes, typography feel, and overall mood. Do not copy its photos, text, logo, or sections that do not exist in my content below.
+
+Build a lightweight multi-page portfolio website with Node.js and Express, with exactly three pages: Home (/), Services (/services), and Contact (/contact). Do NOT build a single scrolling landing page. It is for a freelance digital marketer and content creator named Rafi Ariq Maulana. Use all the copy below exactly as written. Do not rewrite, shorten, or add text.
+
+=====================
+TECHNICAL REQUIREMENTS
+=====================
+- package.json at the project root with a "start" script (node server.js) and all dependencies listed. Entry file: server.js.
+- The server reads its port from process.env.PORT, with a fallback of 3000.
+- Keep it simple: Express serving server-rendered or static HTML pages. No heavy framework, no database, no login, no admin panel.
+- Serve static assets from /public. Use compression middleware, lazy-load images, and set caching headers.
+- The Contact form posts to /api/contact. The endpoint validates and sanitizes input and sends the message to my email with Nodemailer over SMTP. Add a hidden honeypot field and basic rate limiting (express-rate-limit).
+- Read SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, and CONTACT_TO from environment variables. Never hard-code secrets. Provide a .env.example with placeholders and add .env to .gitignore.
+- Show a success message after sending and a clear error message on failure, without an awkward page reload.
+- A "Download CV" link pointing to /public/cv.pdf (placeholder file).
+- A short README with run instructions and the required environment variables.
+- Unique page title and short meta description for each page (Home title: "Rafi Ariq Maulana | Digital Marketer & Content Creator"). Favicon placeholder.
+
+============
+DESIGN STYLE
+============
+Inspired by the attached reference: calm, airy, photo-led, premium.
+- Colors only: warm off-white (#F5F4EF) background, near-black (#111111) text, deep forest green (#1F3A2E) for the footer and the contract banner, and one bright lime accent (#D5F25A) for primary buttons, badges, and small highlights.
+- Typography: one clean modern sans-serif (Inter or Manrope). Very large hero headline with tight letter spacing, medium-weight section titles, regular body text. Small uppercase labels with a small lime square or dot, for example "● ABOUT".
+- Shapes: very rounded corners (24-32px) on images and cards, pill-shaped buttons and chips. Generous whitespace between sections.
+- Top navigation (all pages): thin transparent bar over the hero with logo text "Rafi Ariq" on the left, links Home, Services, Contact in the center, and a lime pill button "Get a Free Quote" on the right (links to /contact). Highlight the active page. After scrolling, the bar becomes a solid off-white sticky bar. On mobile, use a simple hamburger menu.
+- Cards: soft white cards on the off-white background, subtle border, gentle hover lift.
+- Accordions (FAQ): thin divider lines, small plus/minus icon on the right, smooth open and close.
+- Footer (all pages): deep green background with a dark gradient, the line "Let's build something together.", links to Home, Services, Contact, and LinkedIn, and a giant translucent wordmark "rafi ariq" across the bottom edge, partially cropped. Small text: "© 2026 Rafi Ariq Maulana. Open to remote projects, partnerships, and contracts."
+- Subtle fade-up animations on scroll and gentle hovers only. No autoplay audio, no heavy autoplay video.
+- Mobile-first and fully responsive. Use image placeholders for photos and video thumbnails.
+- Do NOT invent logos, client names, testimonials, statistics, awards, team members, or any section that is not in the content below.
+
+=====================
+LIVE WIB DIGITAL CLOCK
+=====================
+- Show the current time in Indonesia Western Time (WIB, UTC+7) as a digital clock in HH:MM:SS, 24-hour format.
+- Calculate it in the browser with Intl.DateTimeFormat using timeZone "Asia/Jakarta", so it always shows WIB regardless of the visitor's device timezone. Update every second with setInterval. Never use the visitor's local time for this clock.
+- Hero version: a small translucent glass pill in the bottom-left corner of the hero with a small green dot, the time in a tabular-number font (so digits do not jump), and the label "WIB · Indonesia (UTC+7)". Before JavaScript loads, show only the label, not a time.
+- Contact page version: a rounded card next to the contact details with the title "My local time", the same live WIB clock, and the date (for example "Tue, 13 Oct"). Under it, a second row "Your local time" showing the visitor's own current time (use the visitor's resolved timezone) and the hour difference from WIB (for example "7 hours ahead of you" or "1 hour behind you"). Handle half-hour offsets correctly.
+- Accessibility: do not announce the clock every second to screen readers. Give the clock a static aria-label "Current time in Indonesia, WIB" and mark the changing digits aria-hidden.
+- Keep the clock code small, in its own script file, and reuse it on both pages.
+
+==========
+CONTENT
+==========
+
+PAGE 1 - HOME (/)
+The Home page also works as the About page. A visitor should understand who I am and what I offer within the first two screens. Sections in this exact order:
+
+1. Hero. Full-width, full-viewport-height block with a large background photo placeholder (my portrait) and a soft dark gradient overlay for readability. The headline is centered in large white text. Below it, one lime pill button and one small outlined white pill button, then the short paragraph in small white text. Bottom-left: the live WIB clock pill. Bottom-right: a small pill with a green dot and the text "Available for remote work worldwide".
+Headline: "Your creative and marketing partner for growing online."
+Paragraph: "I'm Rafi, a digital marketer based in Indonesia. I work alongside brands and teams to turn ideas into content that connects, whether it's a one-off project, a monthly collaboration, or a long-term remote role."
+Buttons: "Let's Work Together" (lime, links to /contact) and "See My Work" (outlined, scrolls to the Work section below).
+
+2. About, directly below the Hero. Label "● ABOUT". Title: "Hi, I'm Rafi". Layout: rounded portrait placeholder on the left, text on the right. Keep it compact.
+Paragraph 1: "I'm a digital marketer and content creator based in Indonesia. I've spent the past few years helping brands show up online, from planning content and editing videos to building websites."
+Paragraph 2: "I like to work as part of your team, not just take orders. I ask questions, understand your goals, and make sure everything I create works together: your content, your social channels, and your website."
+Three small value tags in a row: "Reliable: clear timelines and on-time delivery." / "Communicative: regular updates, no guessing." / "Flexible: adapts to your tools, workflow, and timezone."
+Buttons: "Let's Work Together" (to /contact) and "Download CV".
+
+3. Skills. Label "● SKILLS". Title: "What I Bring to the Table". Three equal cards with simple line icons:
+- Content & Video: "Short-form videos, social posters, and carousels that look good and keep people watching."
+- Social Media: "Planning, publishing, and managing your social channels with a consistent voice and brand."
+- Websites & Outreach: "Clean, responsive websites and email campaigns that help people find and trust your brand."
+Tool tags: Canva Pro, CapCut, WordPress, Elementor, Hostinger Email Marketing, Notion.
+Line: "I also use AI tools to work faster without losing the human touch."
+Closing sentence: "Whether you need one of these or all three, I make sure they work together."
+
+4. Selected Work (target of the "See My Work" button). Label "● WORK". Title: "Selected Work". Subtitle: "A few projects I'm proud of, across video, social media, and web." A large rounded showreel video placeholder, then a grid of 6 project cards (the first card larger). Each card: title, "Type · Tools", and one short description. Placeholders only, I will replace them. Button: "Let's Work Together" (to /contact).
+
+5. Closing call-to-action block: "Let's build something together." with a lime button "Let's Work Together" to /contact.
+
+PAGE 2 - SERVICES (/services)
+Page header, label "● SERVICES". Title: "How We Can Work Together". Subtitle: "Pick what you need, or combine them into one partnership."
+Four rounded cards (2x2 on tablet, stacked on mobile):
+Card 1 - Content & Video, "From USD 350/month": "Short-form videos and feed designs that keep your brand consistent." Bullets: 8 short-form videos per month (up to 60 seconds); 8 feed posters or carousels per month; From concept to final cut: storytelling, pacing, subtitles, and sound; Captions included for every video and poster; Revisions until you're happy (up to 2 rounds per piece).
+Card 2 - Social Media Management, "From USD 300/month": "Your channels, planned and handled consistently." Bullets: Content planning and monthly calendar; Caption writing and scheduling; Replies to comments and common questions; Monthly performance report. Note: "Content creation is available in Content & Video, or combined in Full Partner."
+Card 3 - Website Design & Development, "Custom quote": "A website that looks like your brand and works for your business." Bullets: Landing pages, company profiles, and online stores, tailored to your brand; Responsive on phone, tablet, and desktop; Fast, clean, and easy for you to update; From brief to launch, with revisions along the way; Monthly website care available. Button: "Tell Me About Your Project".
+Card 4 - Full Partner, with a lime "Best Value" badge, "From USD 800/month": "Combine what you need into one partnership, with one point of contact." Bullets: Content & Video and Social Media Management together; Monthly strategy check-in to plan ahead; Priority turnaround; Website projects can be added at a bundled rate. Note: "Final pricing depends on the volume and platforms you need." Make this card the most prominent.
+Cards 1, 2, and 4 have the button "Let's Talk". All card buttons link to /contact.
+
+Contract banner (deep green, white text): "Open to contract work." / "Looking for a dedicated team member? I'm available for part-time or full-time remote contracts, working in your timezone and tools such as Slack, Notion, and Trello." Buttons: "Discuss a Contract" (lime, to /contact) and "Download CV" (outlined white).
+
+FAQ, label "● FAQ". Title: "Frequently Asked Questions". Subtitle: "Quick answers before we talk." Accordion:
+- How long does it take to get my work? — "Short-form videos and feed designs are usually delivered within 48-72 hours after I receive your materials. Websites depend on the scope, and I'll share a clear timeline in your quote."
+- What counts as a round of revision? — "One round means one consolidated set of feedback on a draft. Please send all your notes at once so I can update everything in one go. Each piece includes up to 2 rounds. Major changes, like a completely new concept or new footage, are treated as a new request."
+- Do I need to provide the footage and brand materials? — "Yes, for monthly plans I work with the footage, photos, logos, and brand assets you provide. If you need filming or custom design, let's talk about it as an add-on."
+- Do you handle customer service on social media? — "I handle basic community replies, such as thank-yous and common questions. Complaints, orders, and anything that needs your decision are passed on to you."
+- How do payments and contracts work? — "Monthly plans are billed at the start of each month, and projects are usually split into a deposit and a final payment. I accept payment through Wise, Payoneer, or PayPal, and all prices are in USD. You can pause or cancel a monthly plan with 14 days notice."
+- Which platform do you build websites on? — "Most of my websites are built on WordPress, which is flexible and easy for you to manage yourself. If you have a specific platform in mind, tell me and we can see what fits best."
+- How do we communicate across time zones? — "I'm based in UTC+7 and comfortable with async communication, so you always know where things stand. I work with the tools you already use, such as Slack, Notion, Trello, or email, and reply within 24 hours on weekdays."
+
+PAGE 3 - CONTACT (/contact)
+Label "● CONTACT". Title: "Let's Work Together". Text: "Tell me a little about what you need, whether it's a monthly partnership, a specific project, or a remote role. I'll get back to you within 24 hours."
+Working contact form with fields: Name (text); Email (text); What do you need? (dropdown: Content & Video, Social Media Management, Website, Full Partner, Contract Work, Not sure yet); Tell me about your project (long text, placeholder "What are you working on, and what would you like to achieve?"); Timeline (dropdown: ASAP, Within a month, Flexible); Budget range in USD (dropdown: Under $300, $300-$600, $600-$1,000, $1,000+, Not sure yet); Reference links (optional text).
+Submit button: "Send Message". Success message: "Thank you! I've received your message and will reply within 24 hours."
+Next to the form: "Prefer to reach out directly?" Email: rafiariqmaulana48@gmail.com. LinkedIn: linkedin.com/in/rafi-ariq-maulana. "Based in Indonesia (UTC+7) · Available for remote work worldwide". A "Download CV" button. Below the contact details, the "My local time" clock card described above.
