@@ -1,0 +1,49 @@
+Redesign ONLY the "Skills" section of my website. Show me a short plan first, then implement.
+
+PRIORITY: CONSISTENCY WITH MY EXISTING WEBSITE
+The new section must feel like it was always part of this site. Before changing anything, inspect the existing code and reuse:
+- the same color palette (cream background, orange/amber accent, dark text), via the existing CSS variables or theme tokens
+- the same fonts, heading sizes, and letter-spacing
+- the same container width, horizontal padding, and vertical section spacing as my other sections
+- the same border radius, shadow style, and button style already used in the site
+- the same animation style and timing already used (scroll reveal, hover effects)
+Do NOT introduce new colors, fonts, or design styles. Do NOT change the navbar, other sections, routing, or content outside the Skills section. The attached image 2 is only a reference for LAYOUT and BEHAVIOR, not for colors or fonts.
+
+CURRENT STATE (see attached image 1)
+Skills section has a small orange square label "SKILLS", a big heading "What I Bring to the Table", 3 side-by-side cards (Content & Video, Social Media, Websites & Outreach), and a row of pill tags below.
+
+GOAL (see attached image 2 as the layout reference)
+Convert the 3 static cards into a horizontal carousel/slider:
+- Keep the existing label, heading, section background, and the pill tags row.
+- One LARGE active card, about 65-70% of the container width. Inside: text on the left (small round icon, title, short description) and a large rounded image area on the right (about 45-50% of the card width).
+- The NEXT card is visible on the right, smaller and partially cut off by the container edge, to hint that it is scrollable.
+- Cards use rounded corners, soft warm tints taken from my existing palette (cream, soft peach, soft amber), and the same subtle shadow style as my current cards.
+- Below the carousel: round previous/next arrow buttons, a thin progress bar showing the current slide, and on the right a short paragraph with an "Explore in Details →" text link that scrolls to my Services section.
+
+SLIDES
+The final illustrations are not ready yet, so use neutral image placeholders: a rounded rectangle with a soft cream/peach gradient, same size and position the final image will have, with object-fit: cover.
+1. Title: "Websites & Outreach"
+   Description: "Clean, responsive websites and email campaigns that help people find and trust your brand."
+2. Title: "Social Media"
+   Description: "Planning, publishing, and managing your social channels with a consistent voice and brand."
+3. Title: "Content & Video"
+   Description: "Short-form videos, social posters, and carousels that look good and keep people watching."
+Store each slide's image path in the slide data array (e.g. image: "/assets/skill-web.png", "/assets/skill-social.png", "/assets/skill-video.png"). If the image file does not exist yet, show the placeholder, so I can add the final images later without changing the layout code.
+
+BEHAVIOR
+- Arrow buttons move one slide with a smooth 400-500ms transition; the active card enlarges and the others shrink/fade slightly.
+- The progress bar animates to match the active slide.
+- Support swipe on mobile and left/right keyboard arrows when the carousel is focused.
+- Disable the arrow at the first/last slide.
+- Respect prefers-reduced-motion.
+
+RESPONSIVE
+- Desktop: layout as described above.
+- Tablet: active card about 80% width, next card peeking.
+- Mobile: image on top, text below, next card peeking about 10% at the right edge; swipe to navigate; arrows and progress bar below.
+
+TECH NOTES
+- Use the project's existing stack and styling approach. Prefer CSS (scroll-snap or transforms) plus minimal JS; do not add heavy carousel libraries.
+- Keep all slide data (title, description, image, icon) in one array so slides are easy to add later.
+- Add aria-labels to buttons and keep the section accessible by keyboard.
+- When finished, confirm that no other section was changed.

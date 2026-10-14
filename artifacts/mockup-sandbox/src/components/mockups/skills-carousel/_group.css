@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --paper: #F5F4EF;
+  --ink: #111111;
+  --white: #FFFFFF;
+  --amber: #F5AD18;
+  --amber-hover: #DB9610;
+  --amber-soft: #FDF1D8;
+  --placeholder-start: #E9E6DC;
+  --placeholder-end: #D8D2C2;
+  --placeholder-figure: #5A5348;
+  --status-dot: #278A45;
+  --surface: #FBFAF6;
+  --surface-muted: #EEEDE6;
+  --surface-input: #F7F6F0;
+  --surface-error: #F5E6E2;
+  --border: #D9D8CE;
+  --border-soft: #E4E2D9;
+  --border-input: #DFDED5;
+  --muted-ink: #555751;
+  --error-ink: #792C20;
+  --focus-ring: #111111;
+  --hero-overlay: rgba(17, 17, 17, .55);
+  --hero-glass: rgba(17, 17, 17, .62);
+  --ink-04: rgba(17, 17, 17, .04);
+  --ink-07: rgba(17, 17, 17, .07);
+  --ink-08: rgba(17, 17, 17, .08);
+  --ink-10: rgba(17, 17, 17, .10);
+  --ink-18: rgba(17, 17, 17, .18);
+  --white-12: rgba(255, 255, 255, .12);
+  --white-13: rgba(255, 255, 255, .13);
+  --white-15: rgba(255, 255, 255, .15);
+  --white-18: rgba(255, 255, 255, .18);
+  --white-22: rgba(255, 255, 255, .22);
+  --white-24: rgba(255, 255, 255, .24);
+  --white-48: rgba(255, 255, 255, .48);
+  --white-40: rgba(255, 255, 255, .40);
+  --white-60: rgba(255, 255, 255, .60);
+  --white-76: rgba(255, 255, 255, .76);
+  --white-02: rgba(255, 255, 255, .02);
+  --white-03: rgba(255, 255, 255, .03);
+  --paper-glass: rgba(245, 244, 239, .93);
+  --amber-focus: rgba(245, 173, 24, .27);
+  --footer-wordmark: rgba(17, 17, 17, .09);
+  --shadow-sm: 0 12px 32px rgba(17, 17, 17, .06);
+  --shadow: 0 18px 50px rgba(17, 17, 17, .08);
+  --radius: 1.5rem;
+  --app-font-sans: 'Manrope', sans-serif;
+  --app-font-serif: 'Manrope', sans-serif;
+}
+
+.skills-prototype {
+  min-height: 100vh;
+  background: var(--surface-muted);
+  color: var(--ink);
+  font-family: var(--app-font-sans);
+}
+
+.skills-prototype * { box-sizing: border-box; }
+.skills-prototype .section { padding: 116px 0; }
+.skills-prototype .container { width: min(1200px, calc(100% - 64px)); margin-inline: auto; }
+.skills-prototype .eyebrow { display: inline-flex; align-items: center; gap: 9px; font-size: 11px; letter-spacing: .15em; font-weight: 700; text-transform: uppercase; }
+.skills-prototype .eyebrow::before { content: ''; width: 7px; height: 7px; background: var(--amber); display: inline-block; }
+.skills-prototype .section-title { font: 600 clamp(36px, 5vw, 60px)/1.06 var(--app-font-serif); letter-spacing: -.055em; margin: 18px 0 14px; }
+.skills-prototype .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 46px; }
+.skills-prototype .skill-card { min-height: 235px; padding: 28px; border-radius: 24px; background: var(--surface); border: 1px solid var(--border-soft); transition: transform .25s ease, box-shadow .25s ease; }
+.skills-prototype .skill-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+.skills-prototype .skill-icon { width: 42px; height: 42px; border-radius: 50%; background: var(--amber-soft); display: grid; place-items: center; color: var(--ink); margin-bottom: 30px; }
+.skills-prototype .skill-card h3 { font: 600 21px/1.2 var(--app-font-serif); letter-spacing: -.04em; margin: 0 0 10px; }
+.skills-prototype .skill-card p { color: var(--muted-ink); font-size: 13px; line-height: 1.7; margin: 0; }
+.skills-prototype .tool-tags { display: flex; flex-wrap: wrap; gap: 9px; margin: 25px 0 18px; }
+.skills-prototype .chip { border: 1px solid var(--border); padding: 9px 13px; border-radius: 99px; font-size: 11px; color: var(--muted-ink); background: var(--white-40); }
+.skills-prototype .skills-note { color: var(--muted-ink); font-size: 13px; line-height: 1.75; }
+
+@media (max-width: 800px) {
+  .skills-prototype .section { padding: 82px 0; }
+  .skills-prototype .container { width: min(100% - 40px, 640px); }
+  .skills-prototype .skills-grid { grid-template-columns: 1fr; }
+  .skills-prototype .skill-card { min-height: initial; }
+}
+
+@media (max-width: 480px) {
+  .skills-prototype .container { width: calc(100% - 36px); }
+}

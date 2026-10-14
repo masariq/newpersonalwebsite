@@ -1,4 +1,5 @@
-import { ArrowDown, ArrowUpRight, Clapperboard, Globe2, Share2 } from 'lucide-react';
+import { useCallback, useLayoutEffect, useRef, useState, type KeyboardEvent, type TouchEvent } from 'react';
+import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight, Clapperboard, Globe2, Share2 } from 'lucide-react';
 import { Link } from 'wouter';
 import { PageMeta } from '@/components/site-shell';
 import { WibClock } from '@/components/wib-clock';
@@ -11,6 +12,206 @@ const workItems = [
   { title: 'Project 05', type: 'Social · Tools', text: 'A neutral placeholder for a campaign project.' },
   { title: 'Project 06', type: 'Web · Tools', text: 'A neutral placeholder for a digital project.' },
 ];
+
+const skillSlides = [
+  {
+    title: 'Websites & Outreach',
+    description: 'Clean, responsive websites and email campaigns that help people find and trust your brand.',
+    icon: Globe2,
+    image: '/assets/skill-web.png',
+    tone: 'cream',
+  },
+  {
+    title: 'Social Media',
+    description: 'Planning, publishing, and managing your social channels with a consistent voice and brand.',
+    icon: Share2,
+    image: '/assets/skill-social.png',
+    tone: 'amber',
+  },
+  {
+    title: 'Content & Video',
+    description: 'Short-form videos, social posters, and carousels that look good and keep people watching.',
+    icon: Clapperboard,
+    image: '/assets/skill-video.png',
+    tone: 'neutral',
+  },
+] as const;
+
+function SkillsCarousel() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [loadedImages, setLoadedImages] = useState<Record<string, boolean>>({});
+  const [slideOffsets, setSlideOffsets] = useState<number[]>([]);
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const slideRefs = useRef<(HTMLElement | null)[]>([]);
+  const touchStartX = useRef<number | null>(null);
+
+  useLayoutEffect(() => {
+    const viewport = viewportRef.current;
+    const track = trackRef.current;
+    if (!viewport || !track) return;
+
+    const updateOffsets = () => {
+      setSlideOffsets(slideRefs.current.map((slide) => slide?.offsetLeft ?? 0));
+    };
+
+    updateOffsets();
+    const observer = new ResizeObserver(updateOffsets);
+    observer.observe(viewport);
+    slideRefs.current.forEach((slide) => {
+      if (slide) observer.observe(slide);
+    });
+    return () => observer.disconnect();
+  }, []);
+
+  const moveToSlide = useCallback((index: number) => {
+    const nextIndex = Math.max(0, Math.min(skillSlides.length - 1, index));
+    setActiveIndex(nextIndex);
+  }, []);
+
+  const handleCarouselKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === 'ArrowRight' && activeIndex < skillSlides.length - 1) {
+      event.preventDefault();
+      moveToSlide(activeIndex + 1);
+    } else if (event.key === 'ArrowLeft' && activeIndex > 0) {
+      event.preventDefault();
+      moveToSlide(activeIndex - 1);
+    }
+  };
+
+  const handleTouchStart = (event: TouchEvent<HTMLDivElement>) => {
+    touchStartX.current = event.changedTouches[0]?.clientX ?? null;
+  };
+
+  const handleTouchEnd = (event: TouchEvent<HTMLDivElement>) => {
+    const startX = touchStartX.current;
+    const endX = event.changedTouches[0]?.clientX;
+    touchStartX.current = null;
+    if (startX === null || endX === undefined) return;
+
+    const distance = startX - endX;
+    if (Math.abs(distance) < 44) return;
+    moveToSlide(activeIndex + (distance > 0 ? 1 : -1));
+  };
+
+  const trackOffset = slideOffsets[activeIndex] ?? 0;
+
+  return (
+    <div
+      className="skills-carousel"
+      role="region"
+      aria-label="Skills"
+      aria-roledescription="carousel"
+      tabIndex={0}
+      onKeyDown={handleCarouselKeyDown}
+    >
+      <div
+        className="skills-carousel-viewport"
+        ref={viewportRef}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+        onTouchCancel={() => { touchStartX.current = null; }}
+      >
+        <div
+          className="skills-carousel-track"
+          id="skills-carousel-track"
+          ref={trackRef}
+          style={{ transform: `translate3d(-${trackOffset}px, 0, 0)` }}
+        >
+          {skillSlides.map((slide, index) => {
+            const Icon = slide.icon;
+            const hasImage = loadedImages[slide.image] === true;
+            const isActive = index === activeIndex;
+
+            return (
+              <article
+                className="skill-carousel-card"
+                data-active={isActive}
+                data-tone={slide.tone}
+                data-testid={`card-skill-${index + 1}`}
+                aria-hidden={!isActive}
+                aria-roledescription="slide"
+                aria-label={`${index + 1} of ${skillSlides.length}: ${slide.title}`}
+                key={slide.title}
+                ref={(element) => { slideRefs.current[index] = element; }}
+              >
+                <div className="skill-carousel-copy">
+                  <div className="skill-icon" aria-hidden="true">
+                    <Icon size={19} strokeWidth={1.7} />
+                  </div>
+                  <div>
+                    <h3>{slide.title}</h3>
+                    <p>{slide.description}</p>
+                  </div>
+                </div>
+                <div className={`skill-carousel-visual${hasImage ? ' has-image' : ''}`}>
+                  {!hasImage && <div className="skill-carousel-placeholder" role="img" aria-label={`Image placeholder for ${slide.title}`} />}
+                  <img
+                    className={`skill-carousel-image${hasImage ? ' is-loaded' : ''}`}
+                    src={slide.image}
+                    alt={hasImage ? `${slide.title} example` : ''}
+                    aria-hidden={!hasImage}
+                    loading="lazy"
+                    onLoad={() => setLoadedImages((current) => ({ ...current, [slide.image]: true }))}
+                    onError={() => setLoadedImages((current) => ({ ...current, [slide.image]: false }))}
+                  />
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="skills-carousel-footer">
+        <div className="skills-carousel-controls">
+          <button
+            className="skills-carousel-arrow"
+            type="button"
+            aria-label="Previous skill"
+            aria-controls="skills-carousel-track"
+            data-testid="button-skill-previous"
+            disabled={activeIndex === 0}
+            onClick={() => moveToSlide(activeIndex - 1)}
+          >
+            <ArrowLeft size={17} aria-hidden="true" />
+          </button>
+          <button
+            className="skills-carousel-arrow"
+            type="button"
+            aria-label="Next skill"
+            aria-controls="skills-carousel-track"
+            data-testid="button-skill-next"
+            disabled={activeIndex === skillSlides.length - 1}
+            onClick={() => moveToSlide(activeIndex + 1)}
+          >
+            <ArrowRight size={17} aria-hidden="true" />
+          </button>
+        </div>
+
+        <div
+          className="skills-carousel-progress"
+          role="progressbar"
+          aria-label="Skill slide progress"
+          aria-valuemin={1}
+          aria-valuemax={skillSlides.length}
+          aria-valuenow={activeIndex + 1}
+        >
+          <span style={{ transform: `translateX(${activeIndex * 100}%)` }} />
+        </div>
+
+        <div className="skills-carousel-details">
+          <p>See how these skills come together in a flexible service partnership.</p>
+          <Link href="/services" className="skills-carousel-link" data-testid="link-skills-services">
+            Explore in Details →
+          </Link>
+        </div>
+      </div>
+      <span className="sr-only" aria-live="polite" aria-atomic="true">
+        Slide {activeIndex + 1} of {skillSlides.length}: {skillSlides[activeIndex].title}
+      </span>
+    </div>
+  );
+}
 
 export default function HomePage() {
   return (
@@ -55,23 +256,7 @@ export default function HomePage() {
         <div className="container">
           <span className="eyebrow">SKILLS</span>
           <h2 className="section-title">What I Bring to the Table</h2>
-          <div className="skills-grid">
-            <article className="skill-card">
-              <div className="skill-icon"><Clapperboard size={19} strokeWidth={1.7} /></div>
-              <h3>Content &amp; Video</h3>
-              <p>Short-form videos, social posters, and carousels that look good and keep people watching.</p>
-            </article>
-            <article className="skill-card">
-              <div className="skill-icon"><Share2 size={19} strokeWidth={1.7} /></div>
-              <h3>Social Media</h3>
-              <p>Planning, publishing, and managing your social channels with a consistent voice and brand.</p>
-            </article>
-            <article className="skill-card">
-              <div className="skill-icon"><Globe2 size={19} strokeWidth={1.7} /></div>
-              <h3>Websites &amp; Outreach</h3>
-              <p>Clean, responsive websites and email campaigns that help people find and trust your brand.</p>
-            </article>
-          </div>
+          <SkillsCarousel />
           <div className="tool-tags" aria-label="Tools">
             {['Canva Pro', 'CapCut', 'WordPress', 'Elementor', 'Hostinger Email Marketing', 'Notion'].map((tool) => <span className="chip" key={tool}>{tool}</span>)}
           </div>
