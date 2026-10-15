@@ -407,7 +407,6 @@ export default function HomePage() {
             </div>
             <div className="button-row">
               <Link href="/contact" className="pill-button" data-testid="link-about-contact">Let's Work Together <ArrowUpRight size={15} /></Link>
-              <a className="quiet-link" href="/cv.pdf" download data-testid="link-download-cv-about">Download CV <ArrowUpRight size={14} /></a>
             </div>
           </div>
         </div>

@@ -80,7 +80,6 @@ export default function ServicesPage() {
           </div>
           <div className="contract-actions">
             <Link href="/contact" className="pill-button" data-testid="link-contract-contact">Discuss a Contract <ArrowUpRight size={15} /></Link>
-            <a className="pill-button pill-button-outline" href="/cv.pdf" download data-testid="link-services-cv">Download CV <ArrowUpRight size={15} /></a>
           </div>
         </section>
       </section>

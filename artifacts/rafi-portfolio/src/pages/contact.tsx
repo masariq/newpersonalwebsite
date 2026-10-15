@@ -107,7 +107,6 @@ export default function ContactPage() {
           <div className="contact-line"><span>Email</span><a href="mailto:rafiariqmaulana48@gmail.com" data-testid="link-contact-email">rafiariqmaulana48@gmail.com <ArrowUpRight size={13} /></a></div>
           <div className="contact-line"><span>LinkedIn</span><a href="https://linkedin.com/in/rafi-ariq-maulana" target="_blank" rel="noreferrer" data-testid="link-contact-linkedin">linkedin.com/in/rafi-ariq-maulana <ArrowUpRight size={13} /></a></div>
           <p className="contact-location">Based in Indonesia (UTC+7) · Available for remote work worldwide</p>
-          <a href="/cv.pdf" download className="pill-button pill-button-outline" data-testid="link-contact-cv">Download CV <ArrowUpRight size={15} /></a>
           <WibClock variant="card" />
         </aside>
       </section>
