@@ -395,7 +395,7 @@ export default function HomePage() {
       <section className="section" id="about">
         <div className="container about-grid">
           <div className="portrait-placeholder" data-testid="img-about-portrait">
-            <img src={new URL('../../../../attached_assets/Photo_Rafi_ariq_maulana_1792048419496.png', import.meta.url).href} alt="Rafi Ariq Maulana" loading="lazy" />
+            <img src={new URL('../../../../attached_assets/about-me.jpg', import.meta.url).href} alt="Rafi Ariq Maulana" loading="lazy" />
           </div>
           <div className="about-copy">
             <span className="eyebrow">ABOUT</span>
