@@ -1,0 +1,46 @@
+Redesign ONLY the hero section of my website. Show me a short plan first, then implement. Do not touch other sections, routing, or global styles.
+
+CONSISTENCY
+Reuse my existing fonts, heading letter-spacing, amber/orange accent color, button styles, container width, and animation style. Image 2 is a reference for LAYOUT and MOTION only, not for colors or fonts.
+
+KEEP THE EXISTING COPY EXACTLY
+- Headline: "Your creative and marketing partner for growing online."
+- Paragraph: "I'm Rafi, a digital marketer based in Indonesia. I work alongside brands and teams to turn ideas into content that connects, whether it's a one-off project, a monthly collaboration, or a long-term remote role."
+- Buttons: "Let's Work Together" (primary, amber) and "See My Work" (outlined)
+- Keep the navbar, the "Get a Free Quote" button, the WIB clock pill, and the "Available for remote work worldwide" pill.
+
+LAYOUT (follow image 2)
+1. Centered large headline at the top.
+2. Below it, a full-width horizontal strip of image cards that is cut off by the left and right edges of the screen.
+3. Below the strip: the paragraph, then the two buttons.
+
+LIGHT HERO
+The hero background becomes light (#EEEEEE or my existing light neutral). Switch hero text to dark (near-black), navbar text dark while over the hero, outlined button with dark border and text. Keep amber buttons. Do not change other sections.
+
+CURVED, MOVING IMAGE STRIP (main feature)
+- Cards sit in a single row inside a container with CSS perspective (about 1200px).
+- The row moves continuously from right to left in a seamless infinite loop (duplicate the card list to avoid jumps). Speed: slow and smooth, roughly 30-40 pixels per second.
+- Each card's transform depends on its horizontal distance from the viewport center, computed in JS with requestAnimationFrame (use transform and opacity only for performance):
+  - Center cards: facing forward, full size, rotateY about 0.
+  - Cards toward the edges: rotateY gradually increasing (up to about 25-30 degrees, tilting inward toward the center), scale decreasing (down to about 0.8), and a slight translateY so the whole row forms a gentle arc like a curved surface, exactly like the reference.
+- Cards have rounded corners (about 12-16px), a thin white border (about 6px), and a very soft shadow. Gap between cards is small.
+- The strip is cut off at the edges of the viewport, with a subtle fade on far left and right.
+- Pause the motion on hover (desktop). On touch devices keep moving.
+- Respect prefers-reduced-motion: stop the animation and show a static curved strip.
+- Pause the animation when the hero is not visible (IntersectionObserver) to save performance.
+
+IMAGES
+- Keep all card data in ONE array at the top of the component: id, src, alt. Example src: "/assets/hero/hero-1.png" through "/assets/hero/hero-8.png".
+- Use a CSS variable for the card aspect ratio, default 4 / 3, so I can change it easily later.
+- If an image file does not exist yet, show a placeholder card: soft gradient (light gray to cream) with a subtle icon, same size and shape, so the layout and animation already work.
+- Use object-fit: cover, loading="lazy" for off-screen cards, and meaningful alt text.
+
+RESPONSIVE
+- Desktop: cards about 280-340px wide, 4-5 cards visible.
+- Tablet: cards about 240px wide, 3 cards visible.
+- Mobile: cards about 190-220px wide, 2 cards visible with the curve effect reduced (smaller rotateY); headline wraps to 4-5 lines; buttons stack vertically; the two bottom pills must not overlap content.
+
+TECH NOTES
+- Use the project's existing stack. No heavy animation or carousel libraries.
+- Keep the code clean: one component or section file, one data array.
+- Confirm at the end that nothing outside the hero changed.

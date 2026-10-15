@@ -1,8 +1,14 @@
 import { useCallback, useLayoutEffect, useRef, useState, type KeyboardEvent, type TouchEvent } from 'react';
-import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight, Clapperboard, Globe2, Share2 } from 'lucide-react';
+import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight, Clapperboard, Globe2, Image as ImageIcon, Share2 } from 'lucide-react';
 import { Link } from 'wouter';
 import { PageMeta } from '@/components/site-shell';
 import { WibClock } from '@/components/wib-clock';
+
+const heroStripCards = [
+  { id: 'web', src: '/assets/skill-web.png', alt: 'Web designer creating a responsive website at a computer' },
+  { id: 'social', src: '/assets/skill-social.png', alt: 'Social media manager planning content for multiple channels' },
+  { id: 'video', src: '/assets/skill-video.png', alt: 'Video editor working on a video timeline at a computer' },
+];
 
 const workItems = [
   { title: 'Project 01', type: 'Video · Tools', text: 'A neutral placeholder for a selected video project.' },
@@ -36,6 +42,156 @@ const skillSlides = [
     tone: 'neutral',
   },
 ] as const;
+
+function HeroImageStrip() {
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    const viewport = viewportRef.current;
+    const track = trackRef.current;
+    const hero = viewport?.closest<HTMLElement>('.hero');
+    if (!viewport || !track || !hero) return;
+
+    const cards = Array.from(track.children) as HTMLElement[];
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const hoverCapable = window.matchMedia('(hover: hover) and (pointer: fine)');
+    let isVisible = true;
+    let isHovered = false;
+    let frameId: number | undefined;
+    let previousTime: number | undefined;
+    let viewportWidth = 0;
+    let setWidth = 0;
+    let offset = 0;
+
+    const draw = () => {
+      if (setWidth <= 0 || viewportWidth <= 0) return;
+      track.style.transform = `translate3d(${-offset}px, 0, 0)`;
+
+      cards.forEach((card) => {
+        const center = card.offsetLeft + card.offsetWidth / 2 - offset;
+        const distance = (center - viewportWidth / 2) / Math.max(viewportWidth / 2, 1);
+        const curve = Math.min(1, Math.abs(distance));
+        const translateY = Math.pow(curve, 1.6) * 18;
+        const maxRotation = viewportWidth <= 480 ? 12 : viewportWidth <= 800 ? 20 : 28;
+        const rotateY = -Math.max(-1, Math.min(1, distance)) * maxRotation;
+        const scale = 1 - curve * 0.18;
+        card.style.transform = `translate3d(0, ${translateY.toFixed(2)}px, 0) rotateY(${rotateY.toFixed(2)}deg) scale(${scale.toFixed(3)})`;
+        card.style.opacity = (1 - curve * 0.16).toFixed(3);
+      });
+    };
+
+    const stop = () => {
+      if (frameId !== undefined) cancelAnimationFrame(frameId);
+      frameId = undefined;
+      previousTime = undefined;
+    };
+
+    const animate = (time: number) => {
+      frameId = undefined;
+      if (reducedMotion.matches || !isVisible || isHovered || setWidth <= 0) return;
+      if (previousTime === undefined) previousTime = time;
+      const elapsed = Math.min(time - previousTime, 40);
+      previousTime = time;
+      offset += elapsed * 0.036;
+      if (offset >= setWidth * 2) offset -= setWidth;
+      draw();
+      frameId = requestAnimationFrame(animate);
+    };
+
+    const start = () => {
+      if (reducedMotion.matches || !isVisible || isHovered || frameId !== undefined) return;
+      frameId = requestAnimationFrame(animate);
+    };
+
+    const measure = () => {
+      viewportWidth = viewport.clientWidth;
+      const firstSetStart = cards[0]?.offsetLeft ?? 0;
+      const nextSetStart = cards[heroStripCards.length]?.offsetLeft;
+      if (nextSetStart === undefined) return;
+      setWidth = nextSetStart - firstSetStart;
+      const centerCard = cards[Math.floor(heroStripCards.length / 2)];
+      if (centerCard) {
+        offset = setWidth + centerCard.offsetLeft - firstSetStart
+          + centerCard.offsetWidth / 2 - viewportWidth / 2;
+        while (offset < setWidth) offset += setWidth;
+        while (offset >= setWidth * 2) offset -= setWidth;
+      }
+      draw();
+      start();
+    };
+
+    const onMouseEnter = () => {
+      if (!hoverCapable.matches) return;
+      isHovered = true;
+      stop();
+    };
+    const onMouseLeave = () => {
+      if (!hoverCapable.matches) return;
+      isHovered = false;
+      start();
+    };
+    const onMotionChange = () => {
+      if (reducedMotion.matches) {
+        stop();
+        draw();
+      } else {
+        start();
+      }
+    };
+
+    const resizeObserver = new ResizeObserver(measure);
+    resizeObserver.observe(viewport);
+    const visibilityObserver = new IntersectionObserver(([entry]) => {
+      isVisible = entry.isIntersecting;
+      if (isVisible) start();
+      else stop();
+    }, { threshold: 0.05 });
+    visibilityObserver.observe(hero);
+    viewport.addEventListener('mouseenter', onMouseEnter);
+    viewport.addEventListener('mouseleave', onMouseLeave);
+    reducedMotion.addEventListener('change', onMotionChange);
+    measure();
+
+    return () => {
+      stop();
+      resizeObserver.disconnect();
+      visibilityObserver.disconnect();
+      viewport.removeEventListener('mouseenter', onMouseEnter);
+      viewport.removeEventListener('mouseleave', onMouseLeave);
+      reducedMotion.removeEventListener('change', onMotionChange);
+    };
+  }, []);
+
+  return (
+    <div className="hero-strip" aria-label="Selected creative work">
+      <div className="hero-strip-viewport" ref={viewportRef}>
+        <div className="hero-strip-track" ref={trackRef}>
+          {Array.from({ length: 3 }, (_, setIndex) =>
+            heroStripCards.map((card) => (
+              <figure
+                key={`${setIndex}-${card.id}`}
+                className="hero-image-card"
+                aria-hidden={setIndex !== 1}
+              >
+                <div className="hero-image-fallback" aria-hidden="true">
+                  <ImageIcon size={25} strokeWidth={1.5} />
+                </div>
+                <img
+                  src={card.src}
+                  alt={card.alt}
+                  loading="lazy"
+                  draggable={false}
+                  onError={(event) => { event.currentTarget.style.display = 'none'; }}
+                />
+              </figure>
+            )),
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function SkillsCarousel() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -218,14 +374,15 @@ export default function HomePage() {
     <main>
       <PageMeta title="Rafi Ariq Maulana | Digital Marketer & Content Creator" description="Meet Rafi Ariq Maulana, a digital marketer and content creator based in Indonesia, working alongside brands and teams." />
       <section className="hero" aria-labelledby="hero-title">
-        <div className="hero-art" role="img" aria-label="Portrait background placeholder" />
+        <div className="hero-art" aria-hidden="true" />
         <div className="hero-content">
           <h1 id="hero-title">Your creative and marketing partner for growing online.</h1>
+          <HeroImageStrip />
+          <p className="hero-copy">I'm Rafi, a digital marketer based in Indonesia. I work alongside brands and teams to turn ideas into content that connects, whether it's a one-off project, a monthly collaboration, or a long-term remote role.</p>
           <div className="hero-actions">
             <Link href="/contact" className="pill-button" data-testid="link-hero-contact">Let's Work Together <ArrowUpRight size={16} /></Link>
             <a href="#work" className="pill-button pill-button-outline" data-testid="link-see-work">See My Work <ArrowDown size={15} /></a>
           </div>
-          <p className="hero-copy">I'm Rafi, a digital marketer based in Indonesia. I work alongside brands and teams to turn ideas into content that connects, whether it's a one-off project, a monthly collaboration, or a long-term remote role.</p>
         </div>
         <WibClock />
         <div className="availability"><span className="live-dot" aria-hidden="true" />Available for remote work worldwide</div>
