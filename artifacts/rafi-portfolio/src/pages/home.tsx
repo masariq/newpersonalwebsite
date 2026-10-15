@@ -5,9 +5,13 @@ import { PageMeta } from '@/components/site-shell';
 import { WibClock } from '@/components/wib-clock';
 
 const heroStripCards = [
-  { id: 'web', src: '/assets/skill-web.png', alt: 'Web designer creating a responsive website at a computer' },
-  { id: 'social', src: '/assets/skill-social.png', alt: 'Social media manager planning content for multiple channels' },
-  { id: 'video', src: '/assets/skill-video.png', alt: 'Video editor working on a video timeline at a computer' },
+  { id: 'hero-1', src: new URL('../../../../attached_assets/hero-1_1792046037039.jpg', import.meta.url).href, alt: 'Coffee shop social media design' },
+  { id: 'hero-2', src: new URL('../../../../attached_assets/hero-2_1792046037040.jpg', import.meta.url).href, alt: 'Marketing agency social media design' },
+  { id: 'hero-3', src: new URL('../../../../attached_assets/hero-3_1792046037040.jpg', import.meta.url).href, alt: 'Padel club social media design' },
+  { id: 'hero-4', src: new URL('../../../../attached_assets/hero-4_1792046037040.jpg', import.meta.url).href, alt: 'Skincare website design' },
+  { id: 'hero-5', src: new URL('../../../../attached_assets/hero-5_1792046037041.jpg', import.meta.url).href, alt: 'Children’s dental website design' },
+  { id: 'hero-6', src: new URL('../../../../attached_assets/hero-6_1792046037041.jpg', import.meta.url).href, alt: 'Financial planning website design' },
+  { id: 'hero-7', src: new URL('../../../../attached_assets/hero-7_1792046037042.jpg', import.meta.url).href, alt: 'Real estate website design' },
 ];
 
 const workItems = [
