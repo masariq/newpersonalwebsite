@@ -177,8 +177,7 @@
 .clock-digits { font-variant-numeric: tabular-nums; font-feature-settings: 'tnum'; letter-spacing: .04em; }
 .about-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(42px, 8vw, 112px); align-items: center; }
 .portrait-placeholder { border-radius: 30px; min-height: 500px; position: relative; overflow: hidden; background: linear-gradient(145deg, var(--placeholder-start), var(--placeholder-end)); }
-.portrait-placeholder::before { content: ''; position: absolute; inset: 7% 9%; border-radius: 23px; background: linear-gradient(180deg, var(--white-18), transparent 45%), radial-gradient(ellipse at 54% 37%, var(--placeholder-figure) 0 13%, transparent 13.5%), radial-gradient(ellipse at 54% 83%, var(--placeholder-figure) 0 32%, transparent 32.5%), linear-gradient(130deg, var(--placeholder-start), var(--placeholder-end)); }
-.portrait-placeholder::after { content: 'PORTRAIT PLACEHOLDER'; position: absolute; bottom: 25px; left: 30px; font-size: 9px; letter-spacing: .16em; color: var(--ink); }
+.portrait-placeholder img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; object-position: center top; }
 .about-copy p { font-size: 15px; color: var(--muted-ink); line-height: 1.8; margin: 19px 0; }
 .value-tags { display: grid; gap: 9px; margin: 25px 0 28px; }
 .value-tag { background: var(--white-60); border: 1px solid var(--border-soft); border-radius: 14px; padding: 12px 15px; color: var(--muted-ink); font-size: 13px; }
