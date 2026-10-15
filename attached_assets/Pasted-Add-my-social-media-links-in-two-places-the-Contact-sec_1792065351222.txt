@@ -1,0 +1,24 @@
+Add my social media links in two places: the Contact section and the site footer. Keep everything else exactly as it is.
+
+LINKS
+- Instagram: https://www.instagram.com/rafiariqm/ , display text: @rafiariqm
+- X: https://x.com/masariqaja , display text: @masariqaja
+- Contra: https://contra.com/rafi_ariq_maulana_rp3a493p , display text: View my profile
+- Upwork: https://www.upwork.com/freelancers/~0187d13fec9ada5f1a , display text: View my profile
+
+1) CONTACT SECTION
+- In the right column, under "Prefer to reach out directly?", add four new rows right after the existing Email and LinkedIn rows, in the same style: label on the left (Instagram, X, Contra, Upwork), the display text on the right with the same small arrow icon, and the same divider lines, font sizes, colors, and spacing as the existing rows.
+- Also show the matching small icon before each label (Instagram, X, Upwork), from react-icons, the same size as the label text, in my dark text color. For Contra, if no icon exists, show a small text-based mark (for example a rounded square with the letter "C") instead.
+- Keep the "Based in Indonesia (UTC+7) · Available for remote work worldwide" line and the "My local time" card below, unchanged.
+
+2) FOOTER
+- Find the existing footer and add a compact row of social icons (Instagram, X, Contra, Upwork) in a spot that fits its current layout. Do not restructure or redesign the footer.
+- Use the react-icons library already installed in the project for Instagram, X (the new X logo), and Upwork. For Contra, if no icon exists, use a small text pill with the name "Contra" matching the icons' size.
+- Do not draw custom brand logos and do not install any new library.
+- Use one color for all icons (my existing dark text color) with the amber accent on hover, the same size and spacing for all, and aria-labels like "Rafi on Instagram".
+
+BOTH PLACES
+- Every link opens in a new tab with target="_blank" and rel="noopener noreferrer".
+- Must look good and wrap cleanly on mobile.
+
+Rules: do not change the contact form, its logic, the hero, About, navbar, other sections, colors, or fonts. Do not add new features or refactor. Do not run extra checks beyond making sure the page loads. Keep your reply to 2 sentences.

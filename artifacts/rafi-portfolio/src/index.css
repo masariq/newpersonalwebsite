@@ -286,6 +286,9 @@
 .contact-details h2 { font: 600 23px var(--app-font-serif); letter-spacing: -.04em; margin: 0 0 23px; }
 .contact-line { padding: 15px 0; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; gap: 15px; font-size: 13px; }
 .contact-line span:first-child { color: var(--muted-ink); }
+.contact-social-label { display: inline-flex; align-items: center; gap: 7px; }
+.contact-social-label svg, .contra-mark { color: var(--ink); }
+.contra-mark { width: 13px; height: 13px; display: inline-grid; place-items: center; border: 1px solid currentColor; border-radius: 4px; font-size: 9px; font-weight: 700; line-height: 1; }
 .contact-location { font-size: 13px; color: var(--muted-ink); line-height: 1.7; margin: 22px 0; }
 .local-clock { padding: 22px; margin-top: 28px; border-radius: 22px; background: var(--placeholder-start); }
 .local-clock h3 { margin: 0 0 18px; font: 600 18px var(--app-font-serif); letter-spacing: -.03em; }
@@ -298,6 +301,10 @@
 .footer-title { font: 600 clamp(40px,7vw,82px)/.99 var(--app-font-serif); letter-spacing: -.07em; max-width: 650px; margin: 0; }
 .footer-links { display: flex; flex-direction: column; gap: 14px; font-size: 13px; color: var(--ink); }
 .footer-links a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 4px; }
+.footer-socials { display: flex; flex: 0 0 100%; align-items: center; gap: 8px; margin-top: 2px; }
+.footer-social-link { width: 34px; height: 34px; display: inline-flex; flex: 0 0 auto; align-items: center; justify-content: center; border: 1px solid transparent; border-radius: 50%; color: var(--ink); transition: color .2s ease, background-color .2s ease, transform .2s ease; }
+.footer-social-contra { width: auto; padding: 0 9px; border-color: currentColor; border-radius: 999px; font-size: 10px; font-weight: 700; }
+.footer-links .footer-social-link:hover { color: var(--amber); background: var(--ink); text-decoration: none; transform: translateY(-2px); }
 .footer-bottom { border-top: 1px solid var(--ink-18); margin-top: 75px; padding-top: 20px; font-size: 11px; color: var(--ink); position: relative; z-index: 2; }
 .footer-wordmark { position: relative; margin: 35px -5vw -11vw; white-space: nowrap; font: 800 clamp(120px,27vw,400px)/.72 var(--app-font-serif); letter-spacing: -.1em; color: var(--footer-wordmark); text-align: center; pointer-events: none; }
 .mobile-menu { display: none; }

@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from 'react';
 import { ArrowUpRight } from 'lucide-react';
+import { FaInstagram, FaUpwork, FaXTwitter } from 'react-icons/fa6';
 import { Link } from 'wouter';
 import { PageMeta } from '@/components/site-shell';
 import { WibClock } from '@/components/wib-clock';
@@ -106,6 +107,10 @@ export default function ContactPage() {
           <h2>Prefer to reach out directly?</h2>
           <div className="contact-line"><span>Email</span><a href="mailto:rafiariqmaulana48@gmail.com" data-testid="link-contact-email">rafiariqmaulana48@gmail.com <ArrowUpRight size={13} /></a></div>
           <div className="contact-line"><span>LinkedIn</span><a href="https://linkedin.com/in/rafi-ariq-maulana" target="_blank" rel="noreferrer" data-testid="link-contact-linkedin">linkedin.com/in/rafi-ariq-maulana <ArrowUpRight size={13} /></a></div>
+          <div className="contact-line"><span className="contact-social-label"><FaInstagram size={13} aria-hidden="true" />Instagram</span><a href="https://www.instagram.com/rafiariqm/" target="_blank" rel="noopener noreferrer">@rafiariqm <ArrowUpRight size={13} /></a></div>
+          <div className="contact-line"><span className="contact-social-label"><FaXTwitter size={13} aria-hidden="true" />X</span><a href="https://x.com/masariqaja" target="_blank" rel="noopener noreferrer">@masariqaja <ArrowUpRight size={13} /></a></div>
+          <div className="contact-line"><span className="contact-social-label"><span className="contra-mark" aria-hidden="true">C</span>Contra</span><a href="https://contra.com/rafi_ariq_maulana_rp3a493p" target="_blank" rel="noopener noreferrer">View my profile <ArrowUpRight size={13} /></a></div>
+          <div className="contact-line"><span className="contact-social-label"><FaUpwork size={13} aria-hidden="true" />Upwork</span><a href="https://www.upwork.com/freelancers/~0187d13fec9ada5f1a" target="_blank" rel="noopener noreferrer">View my profile <ArrowUpRight size={13} /></a></div>
           <p className="contact-location">Based in Indonesia (UTC+7) · Available for remote work worldwide</p>
           <WibClock variant="card" />
         </aside>

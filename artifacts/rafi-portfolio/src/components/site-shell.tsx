@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'wouter';
 import { ArrowUpRight, Menu, X } from 'lucide-react';
+import { FaInstagram, FaUpwork, FaXTwitter } from 'react-icons/fa6';
 
 const navItems = [
   { label: 'Home', href: '/' },
@@ -53,6 +54,12 @@ export function SiteFooter() {
             <Link href="/services" data-testid="link-footer-services">Services</Link>
             <Link href="/contact" data-testid="link-footer-contact">Contact</Link>
             <a href="https://linkedin.com/in/rafi-ariq-maulana" target="_blank" rel="noreferrer" data-testid="link-footer-linkedin">LinkedIn <ArrowUpRight size={13} /></a>
+            <div className="footer-socials" aria-label="Social media">
+              <a className="footer-social-link" href="https://www.instagram.com/rafiariqm/" target="_blank" rel="noopener noreferrer" aria-label="Rafi on Instagram"><FaInstagram size={16} aria-hidden="true" /></a>
+              <a className="footer-social-link" href="https://x.com/masariqaja" target="_blank" rel="noopener noreferrer" aria-label="Rafi on X"><FaXTwitter size={16} aria-hidden="true" /></a>
+              <a className="footer-social-link footer-social-contra" href="https://contra.com/rafi_ariq_maulana_rp3a493p" target="_blank" rel="noopener noreferrer" aria-label="Rafi on Contra">Contra</a>
+              <a className="footer-social-link" href="https://www.upwork.com/freelancers/~0187d13fec9ada5f1a" target="_blank" rel="noopener noreferrer" aria-label="Rafi on Upwork"><FaUpwork size={16} aria-hidden="true" /></a>
+            </div>
           </nav>
         </div>
         <div className="footer-wordmark" aria-hidden="true">rafi ariq</div>
