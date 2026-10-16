@@ -6,14 +6,14 @@ import { PageMeta } from '@/components/site-shell';
 const services = [
   {
     title: 'Content & Video',
-    price: 'From USD 350/month',
+    price: 'Monthly retainer',
     intro: 'Short-form videos and feed designs that keep your brand consistent.',
-    bullets: ['8 short-form videos per month (up to 60 seconds)', '8 feed posters or carousels per month', 'From concept to final cut: storytelling, pacing, subtitles, and sound', 'Captions included for every video and poster', "Revisions until you're happy (up to 2 rounds)"],
+    bullets: ['Up to 8 short-form videos per month (up to 60 seconds)', 'Up to 8 feed posters or carousels per month', 'From concept to final cut: storytelling, pacing, subtitles, and sound', 'Captions included for every video and poster', "Revisions until you're happy (up to 2 rounds)"],
     button: "Let's Talk",
   },
   {
     title: 'Social Media Management',
-    price: 'From USD 300/month',
+    price: 'Monthly retainer',
     intro: 'Your channels, planned and handled consistently.',
     bullets: ['Content planning and monthly calendar', 'Caption writing and scheduling', 'Replies to comments and common questions', 'Monthly performance report'],
     note: 'Content creation is available in Content & Video, or combined in Full Partner.',
@@ -28,10 +28,10 @@ const services = [
   },
   {
     title: 'Full Partner',
-    price: 'From USD 800/month',
+    price: 'Monthly partnership',
     intro: 'Combine what you need into one partnership, with one point of contact.',
-    bullets: ['Content & Video and Social Media Management together', 'Monthly strategy check-in to plan ahead', 'Priority turnaround', 'Website projects can be added at a bundled rate.'],
-    note: 'Final pricing depends on the volume and platforms you need.',
+    bullets: ['Content & Video and Social Media Management together', 'Monthly strategy check-in to plan ahead', 'Priority turnaround', 'Website projects can be added on top.'],
+    note: "Tell me what you need and I'll propose a plan that fits your goals and budget.",
     button: "Let's Talk",
     prominent: true,
   },
@@ -42,7 +42,7 @@ const faqs = [
   ['What counts as a round of revision?', 'One round means one consolidated set of feedback on a draft. Please send all your notes at once so I can update everything in one go. Each piece includes up to 2 rounds. Major changes, like a completely new concept or new footage, are treated as a new request.'],
   ['Do I need to provide the footage and brand materials?', "Yes, for monthly plans I work with the footage, photos, logos, and brand assets you provide. If you need filming or custom design, let's talk about it as an add-on."],
   ['Do you handle customer service on social media?', 'I handle basic community replies, such as thank-yous and common questions. Complaints, orders, and anything that needs your decision are passed on to you.'],
-  ['How do payments and contracts work?', 'Monthly plans are billed at the start of each month, and projects are usually split into a deposit and a final payment. I accept payment through Wise, Payoneer, or PayPal, and all prices are in USD. You can pause or cancel a monthly plan with 14 days notice.'],
+   ['How do payments and contracts work?', 'Monthly plans are billed at the start of each month, and projects are usually split into a deposit and a final payment. I accept payment through Wise, Payoneer, or PayPal. You can pause or cancel a monthly plan with 14 days notice.'],
   ['Which platform do you build websites on?', 'Most of my websites are built on WordPress, which is flexible and easy for you to manage yourself. If you have a specific platform in mind, tell me and we can see what fits best.'],
   ['How do we communicate across time zones?', "I'm based in UTC+7 and comfortable with async communication, so you always know where things stand. I work with the tools you already use, such as Slack, Notion, Trello, or email, and reply within 24 hours on weekdays."],
 ];
@@ -63,7 +63,7 @@ export default function ServicesPage() {
         <div className="services-grid">
           {services.map((service, index) => (
             <article className={`service-card${service.prominent ? ' prominent' : ''}`} key={service.title} data-testid={`card-service-${index + 1}`}>
-              {service.prominent && <span className="best-value">Best Value</span>}
+              {service.prominent && <span className="best-value">Most complete</span>}
               <h2>{service.title}</h2>
               <span className="service-price">{service.price}</span>
               <p>{service.intro}</p>
