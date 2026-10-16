@@ -45,8 +45,8 @@ const faqs = [
   ['Do I need to provide the footage and brand materials?', "Yes, for monthly plans I work with the footage, photos, logos, and brand assets you provide. If you need filming or custom design, let's talk about it as an add-on."],
   ['Do you handle customer service on social media?', 'I handle basic community replies, such as thank-yous and common questions. Complaints, orders, and anything that needs your decision are passed on to you.'],
    ['How do payments and contracts work?', 'Monthly plans are billed at the start of each month, and projects are usually split into a deposit and a final payment. I accept payment through Wise, Payoneer, or PayPal. You can pause or cancel a monthly plan with 14 days notice.'],
-  ['Which platform do you build websites on?', 'Most of my websites are built on WordPress, which is flexible and easy for you to manage yourself. If you have a specific platform in mind, tell me and we can see what fits best.'],
-  ['How do we communicate across time zones?', "I'm based in UTC+7 and comfortable with async communication, so you always know where things stand. I work with the tools you already use, such as Slack, Notion, Trello, or email, and reply within 24 hours on weekdays."],
+  ['Which platform do you build websites on?', "I usually work with WordPress, Node.js, and AI tools to build faster and refine the details. I'm also happy to adapt to the platform you prefer, so just tell me what you have in mind and we'll find what fits best."],
+  ['How do we communicate across time zones?', "I'm based in UTC+7 and comfortable with async communication, so you always know where things stand. I work with the tools you already use, such as Slack, Notion, Trello, or email, and reply within 24 hours on weekdays. I'm also happy to use Zoom or Google Meet whenever you'd like to talk things through."],
 ];
 
 export default function ServicesPage() {
