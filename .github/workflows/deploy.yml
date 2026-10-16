@@ -1,0 +1,108 @@
+name: Deploy
+
+# Jalan otomatis setiap ada push ke main, atau manual lewat tab Actions.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Izin supaya workflow boleh mendorong (push) ke cabang "deploy".
+permissions:
+  contents: write
+
+concurrency:
+  group: deploy
+  cancel-in-progress: true
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: latest
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build website (Vite)
+        env:
+          PORT: "3000"
+          BASE_PATH: "/"
+          NODE_ENV: production
+        run: pnpm --filter @workspace/rafi-portfolio run build
+
+      - name: Build API server (esbuild)
+        env:
+          NODE_ENV: production
+        run: pnpm --filter @workspace/api-server run build
+
+      - name: Assemble deploy folder
+        run: |
+          set -euo pipefail
+          rm -rf deploy
+          mkdir -p deploy/dist deploy/public
+
+          # Hasil build server -> deploy/dist
+          cp -r artifacts/api-server/dist/. deploy/dist/
+
+          # Hasil build website -> deploy/public
+          if [ -d artifacts/rafi-portfolio/dist/public ]; then
+            cp -r artifacts/rafi-portfolio/dist/public/. deploy/public/
+          else
+            cp -r artifacts/rafi-portfolio/dist/. deploy/public/
+          fi
+
+          # package.json minimal untuk Hostinger (hanya dependency runtime)
+          cat > deploy/package.json <<'EOF'
+          {
+            "name": "sudutloka-portfolio-deploy",
+            "version": "1.0.0",
+            "private": true,
+            "type": "module",
+            "engines": { "node": ">=20" },
+            "scripts": {
+              "start": "node --enable-source-maps ./dist/index.mjs"
+            },
+            "dependencies": {
+              "compression": "^1.8.2",
+              "cookie-parser": "^1.4.7",
+              "cors": "^2.8.6",
+              "express": "^5.2.1",
+              "express-rate-limit": "^8.7.1",
+              "nodemailer": "^10.1.0",
+              "pino": "^9.14.0",
+              "pino-http": "^10.5.0",
+              "thread-stream": "3.1.0"
+            }
+          }
+          EOF
+
+      - name: Verify output
+        run: |
+          set -euo pipefail
+          test -f deploy/dist/index.mjs || { echo "GAGAL: deploy/dist/index.mjs tidak ada"; exit 1; }
+          test -f deploy/public/index.html || { echo "GAGAL: deploy/public/index.html tidak ada"; exit 1; }
+          echo "Isi deploy/:"
+          find deploy -maxdepth 2 -not -path '*/node_modules*' | sort | head -50
+
+      - name: Publish to deploy branch
+        run: |
+          set -euo pipefail
+          cd deploy
+          git init -b deploy
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Deploy ${GITHUB_SHA}"
+          git push --force "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" deploy
