@@ -6,17 +6,19 @@ import { PageMeta } from '@/components/site-shell';
 const services = [
   {
     title: 'Content & Video',
-    price: 'Monthly retainer',
+    price: 'Monthly or per project',
     intro: 'Short-form videos and feed designs that keep your brand consistent.',
     bullets: ['Up to 8 short-form videos per month (up to 60 seconds)', 'Up to 8 feed posters or carousels per month', 'From concept to final cut: storytelling, pacing, subtitles, and sound', 'Captions included for every video and poster', "Revisions until you're happy (up to 2 rounds)"],
+    projectNote: 'Also available as a one-time project.',
     button: "Let's Talk",
   },
   {
     title: 'Social Media Management',
-    price: 'Monthly retainer',
+    price: 'Monthly or per project',
     intro: 'Your channels, planned and handled consistently.',
     bullets: ['Content planning and monthly calendar', 'Caption writing and scheduling', 'Replies to comments and common questions', 'Monthly performance report'],
     note: 'Content creation is available in Content & Video, or combined in Full Partner.',
+    projectNote: 'Also available as a one-time project.',
     button: "Let's Talk",
   },
   {
@@ -28,7 +30,7 @@ const services = [
   },
   {
     title: 'Full Partner',
-    price: 'Monthly partnership',
+    price: 'Ongoing partnership',
     intro: 'Combine what you need into one partnership, with one point of contact.',
     bullets: ['Content & Video and Social Media Management together', 'Monthly strategy check-in to plan ahead', 'Priority turnaround', 'Website projects can be added on top.'],
     note: "Tell me what you need and I'll propose a plan that fits your goals and budget.",
@@ -69,6 +71,7 @@ export default function ServicesPage() {
               <p>{service.intro}</p>
               <ul>{service.bullets.map((bullet) => <li key={bullet}>{bullet}</li>)}</ul>
               {service.note && <p className="service-note">{service.note}</p>}
+              {service.projectNote && <p className="service-note">{service.projectNote}</p>}
               <Link href="/contact" className={`pill-button${service.prominent ? '' : ' pill-button-outline'}`} data-testid={`link-service-contact-${index + 1}`}>{service.button} <ArrowUpRight size={15} /></Link>
             </article>
           ))}
