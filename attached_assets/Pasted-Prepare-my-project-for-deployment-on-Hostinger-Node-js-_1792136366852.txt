@@ -1,0 +1,23 @@
+Prepare my project for deployment on Hostinger Node.js hosting (deployed from GitHub), and make the contact form email work. Inspect the current structure first (frontend, Express backend, workspace setup), then change only what is needed. Do not change the website's design, content, or behavior.
+
+PART A: DEPLOYMENT
+- Make the project deployable as ONE Node.js app: a package.json at the repository root with a "build" script (builds the frontend) and a "start" script (starts the Express server, which also serves the built frontend files and falls back to index.html for page routes).
+- The server must read its port from process.env.PORT and listen on 0.0.0.0.
+- The API routes (contact form) and the website must work on the same domain, with no hardcoded localhost or Replit URLs.
+- Add a .gitignore (node_modules, dist/build output, .env, logs) and make sure no secrets or .env files are committed.
+- Pin the Node version in package.json "engines" to 22.
+- Make sure the project can be installed and built with a standard package manager command. If the workspace requires pnpm, tell me exactly what to set as the install, build, and start commands on Hostinger.
+
+PART B: CONTACT FORM EMAIL
+- Inspect the existing contact form backend and keep its fields (name, email, what do you need, project description, timeline, budget range, reference links).
+- Send the message with SMTP (nodemailer, or the library already used). Read ALL settings from environment variables: SMTP_HOST, SMTP_PORT, SMTP_SECURE, SMTP_USER, SMTP_PASS, CONTACT_TO_EMAIL. Never hardcode any secret, and do not ask me for my real credentials here; I will set them on Hostinger.
+- Send FROM the SMTP_USER address, TO the CONTACT_TO_EMAIL address, and set Reply-To to the visitor's email so I can reply directly.
+- Email subject: "New inquiry from [name]". Body: a clean plain-text version listing every field, plus a simple HTML version.
+- Validate on the server (required fields, valid email, max lengths), add a hidden honeypot field and a simple rate limit per IP (in-memory is fine). Escape any user input.
+- The form must show a clear success message or a friendly error message, and the submit button must show a loading state. On failure, log the real error on the server only and never show secrets to the visitor.
+- If the SMTP variables are missing (for example while running here on Replit), the form must fail gracefully with a friendly message and a server log, not crash the app.
+- Add a .env.example listing all variable names with empty values, and a short README section explaining them.
+
+WHEN FINISHED, reply with a short checklist: (1) the exact install, build, and start commands for Hostinger, (2) the root directory and entry file, (3) the environment variable names I must set, (4) anything I must do manually.
+
+Rules: do not add features beyond this, do not redesign anything, and do not run extra checks beyond making sure the build and the page load. Keep the reply short.
