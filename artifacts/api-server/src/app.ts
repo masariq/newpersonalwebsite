@@ -1,3 +1,5 @@
+import fs from "node:fs";
+import path from "node:path";
 import express, { type Express } from "express";
 import compression from "compression";
 import cors from "cors";
@@ -33,5 +35,25 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", router);
+app.use("/api", (_req, res) => {
+  res.status(404).json({ error: "Not found" });
+});
+
+// Serve the built website (used on Hostinger, where one Node app serves everything).
+const staticCandidates = [
+  process.env["STATIC_DIR"],
+  path.resolve(__dirname, "../public"),
+  path.resolve(process.cwd(), "artifacts/rafi-portfolio/dist/public"),
+].filter((dir): dir is string => Boolean(dir));
+
+const publicDir =
+  staticCandidates.find((dir) =>
+    fs.existsSync(path.join(dir, "index.html")),
+  ) ?? path.resolve(process.cwd(), "public");
+
+app.use(express.static(publicDir, { index: "index.html", maxAge: "1h" }));
+app.get("/{*splat}", (_req, res) => {
+  res.sendFile(path.join(publicDir, "index.html"));
+});
 
 export default app;
