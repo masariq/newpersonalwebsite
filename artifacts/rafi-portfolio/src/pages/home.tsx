@@ -25,6 +25,7 @@ type WorkProject = {
   overview: string;
   whatIDid: string[];
   image: string;
+  detailImage?: string;
   durationLabel?: string;
   ctaUrl: string;
 };
@@ -34,22 +35,24 @@ const selectedWorkProjects: WorkProject[] = [
     id: 'exporter',
     type: 'website',
     label: 'Website · Client project',
-    title: 'Exporter company website',
-    summary: 'A professional company profile for overseas buyers.',
-    overview: 'A credible, easy-to-navigate website that introduces the company, its products, and how to get in touch.',
+    title: 'Sudutloka',
+    summary: 'A professional company website for an exporter.',
+    overview: 'A credible, easy-to-navigate website for Sudutloka that introduces the company, its products, and how overseas buyers can get in touch.',
     whatIDid: ['Company profile and product pages', 'Clear contact and inquiry flow', 'Responsive design for desktop and mobile'],
     image: 'work-1.jpg',
+    detailImage: 'work-1-detail.jpg',
     ctaUrl: '',
   },
   {
     id: 'padel',
     type: 'website',
-    label: 'Website · Client project',
-    title: 'Padel sports website',
-    summary: 'An energetic website for a padel venue.',
-    overview: 'A bold, sporty website that shares court information and makes it easy for players to get in touch.',
-    whatIDid: ['Court and facility pages', 'Clear contact information', 'Responsive design for desktop and mobile'],
+    label: 'Website · Concept project',
+    title: 'Smash Labs',
+    summary: 'A bold concept website for a padel brand.',
+    overview: 'A personal concept project: an energetic, sporty website for Smash Labs, designed to show how a padel brand can present itself and make it easy for players to get in touch.',
+    whatIDid: ['Concept and visual direction', 'Homepage and key page layouts', 'Responsive design for desktop and mobile'],
     image: 'work-2.jpg',
+    detailImage: 'work-2-detail.jpg',
     ctaUrl: '',
   },
   {
@@ -572,7 +575,7 @@ function SelectedWorkSection() {
               <div className="selected-work-image selected-work-dialog-image">
                 <span className="selected-work-placeholder" aria-hidden="true"><ImageIcon size={34} strokeWidth={1.5} /></span>
                 <img
-                  src={`/assets/${activeProject.image}`}
+                  src={`/assets/${activeProject.detailImage || activeProject.image}`}
                   alt={activeProject.title}
                   loading="lazy"
                   onError={(event) => { event.currentTarget.style.display = 'none'; }}
