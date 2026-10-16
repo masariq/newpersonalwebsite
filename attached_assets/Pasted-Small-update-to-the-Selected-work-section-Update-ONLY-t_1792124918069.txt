@@ -1,0 +1,30 @@
+Small update to the "Selected work" section. Update ONLY the two entries below in the data array. Keep the exporter and padel entries, the layout, the popup behavior, and everything else exactly as they are.
+
+1) SOCIAL MEDIA PROJECT (id: "ayogas", type: "social")
+   label: "Social media · Client project"
+   title: "Ayogas social media management"
+   summary: "Content planning and consistent posting for a growing brand."
+   overview: "Ongoing management of the brand's social channels, from planning content to publishing and engaging with the community."
+   whatIDid: ["Content planning and posting schedule", "Post design and publishing", "Community engagement and monitoring"]
+   image: "work-3.jpg"
+   detailImage: "" (leave empty, the popup uses "image")
+   ctaUrl: "" (keep empty, so the primary button stays hidden)
+
+2) VIDEO PROJECT (id: "video", type: "video")
+   label: "Video · Client project"
+   title: "Kaspias video edit"
+   summary: "A video edit for the band Kaspias."
+   overview: "A video edited for the band Kaspias and published on YouTube, with pacing and visuals that keep viewers watching."
+   whatIDid: ["Video editing and pacing", "Visual and sound sync", "Export and publishing on YouTube"]
+   image: "work-4.jpg"
+   detailImage: "" (leave empty, the popup uses "image")
+   durationLabel: "" (keep empty)
+   ctaUrl: "https://youtu.be/Vn32RxuwhW0"
+
+BEHAVIOR NOTES
+- The video button must only OPEN the link in a new tab (target="_blank", rel="noopener noreferrer"). Do NOT embed or autoplay the video.
+- The video popup's primary button text stays "Watch video ↗". The social popup's stays "View account ↗" and is hidden while ctaUrl is empty.
+- Cards in the grid use "image". The popup uses detailImage when it exists, otherwise falls back to "image".
+- Look for the image files in the same folder as the other site images. If a file is missing, keep the neutral placeholder.
+
+Rules: change only what is described. No slider, no new libraries, no refactor, no extra checks beyond making sure the page loads. Keep your reply to 2 sentences.
