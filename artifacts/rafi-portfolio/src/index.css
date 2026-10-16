@@ -217,9 +217,7 @@
 .skills-carousel-details p { color: var(--muted-ink); font-size: 12px; line-height: 1.65; margin: 0 0 6px; }
 .skills-carousel-link { display: inline-block; color: var(--ink); font-size: 12px; font-weight: 700; text-underline-offset: 4px; }
 .skills-carousel-link:hover { text-decoration: underline; }
-.tool-tags { display: flex; flex-wrap: wrap; gap: 9px; margin: 25px 0 18px; }
-.chip { border: 1px solid var(--border); padding: 9px 13px; border-radius: 99px; font-size: 11px; color: var(--muted-ink); background: var(--white-40); }
-.skills-note { color: var(--muted-ink); font-size: 13px; line-height: 1.75; }
+.skills-note { color: var(--muted-ink); font-size: 13px; line-height: 1.75; margin: 24px 0 0; }
 .work-head { display: flex; justify-content: space-between; align-items: end; gap: 32px; }
 .showreel { height: 420px; margin: 38px 0 18px; border-radius: 30px; position: relative; overflow: hidden; background: linear-gradient(115deg, var(--placeholder-start), var(--placeholder-end)); display: grid; place-items: center; color: var(--white); }
 .showreel::before { content: ''; position: absolute; inset: 0; background: linear-gradient(0deg, var(--hero-overlay) 0%, transparent 78%); }
