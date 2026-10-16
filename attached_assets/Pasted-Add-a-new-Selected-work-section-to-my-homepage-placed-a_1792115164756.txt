@@ -1,0 +1,80 @@
+Add a new "Selected work" section to my homepage, placed after the Skills section and before the About section. Keep everything else exactly as it is.
+
+CONSISTENCY
+Reuse my existing fonts, heading style and letter-spacing, amber accent color, container width, section spacing, card radius and shadow, button/pill styles, and animation style. The new section must look like it was always part of this site.
+
+SECTION HEADER
+- Small amber square + label "WORK" in the same style as the "SKILLS" and "ABOUT" labels.
+- Heading: "Selected work"
+- Subtext: "Websites first, with social media and video work alongside."
+- Give the section id="work". If the hero's "See My Work" button exists, make it smooth-scroll to this section.
+
+CARDS (4 projects, no filter, no tools list)
+- Desktop: 2 columns x 2 rows. Tablet: 2 columns. Mobile: 1 column.
+- Each card: cover image (aspect ratio 4 / 3, rounded corners, object-fit: cover), a small label pill, the title, a one-line summary, and a text link at the bottom.
+- The text link depends on the type: "View project ↗" for website, "View details ↗" for social, "Watch video ↗" for video.
+- For the video card, overlay a round play icon in the center of the image. If a durationLabel exists, show it as a small chip in the bottom-right corner of the image.
+- Hover: slight lift and soft shadow, same style as my other cards. The whole card is clickable and keyboard-accessible (focusable, Enter opens it).
+- Below the grid, add a small secondary outlined button "See more on Contra ↗" linking to https://contra.com/rafi_ariq_maulana_rp3a493p (new tab, rel="noopener noreferrer"), aligned to match the section layout.
+
+DATA (keep all project data in ONE array at the top of the component so I can edit it easily; do not hardcode text in the markup)
+Fields: id, type ("website" | "social" | "video"), label, title, summary, overview, whatIDid (array of 3 short strings), image, durationLabel (optional), ctaUrl.
+
+1. id: "exporter", type: "website"
+   label: "Website · Client project"
+   title: "Exporter company website"
+   summary: "A professional company profile for overseas buyers."
+   overview: "A credible, easy-to-navigate website that introduces the company, its products, and how to get in touch."
+   whatIDid: ["Company profile and product pages", "Clear contact and inquiry flow", "Responsive design for desktop and mobile"]
+   image: "work-1.jpg"
+   ctaUrl: ""
+
+2. id: "padel", type: "website"
+   label: "Website · Client project"
+   title: "Padel sports website"
+   summary: "An energetic website for a padel venue."
+   overview: "A bold, sporty website that shares court information and makes it easy for players to get in touch."
+   whatIDid: ["Court and facility pages", "Clear contact information", "Responsive design for desktop and mobile"]
+   image: "work-2.jpg"
+   ctaUrl: ""
+
+3. id: "ayogas", type: "social"
+   label: "Social media · Client project"
+   title: "Ayogas social media management"
+   summary: "Content planning and consistent posting for a growing brand."
+   overview: "Ongoing management of the brand's social channels, from planning content to publishing and engaging with the community."
+   whatIDid: ["Content planning and posting schedule", "Post design and publishing", "Community engagement and monitoring"]
+   image: "work-3.jpg"
+   ctaUrl: ""
+
+4. id: "video", type: "video"
+   label: "Video · Client project"
+   title: "Short-form video edit"
+   summary: "Fast, clean edits made for reels and short videos."
+   overview: "A short-form video edited for social platforms, with tight pacing, captions, and sound that keep viewers watching."
+   whatIDid: ["Editing and pacing", "Captions and sound", "Formatting for vertical platforms"]
+   image: "work-4.jpg"
+   durationLabel: ""
+   ctaUrl: ""
+
+IMAGES
+- Image files are named work-1.jpg to work-4.jpg. Reference them from the same folder where my other site images already live, so I can simply upload the files there later.
+- If an image file does not exist yet, show a placeholder image: soft neutral background with a subtle photo icon, same size and shape, so the layout already looks complete.
+- Add alt text based on the title and loading="lazy".
+
+POPUP ON CLICK
+- Clicking a card opens a detail popup (modal) with a dimmed backdrop.
+- Popup content, top to bottom: label pill + close (X) button; large image (aspect ratio 16 / 9, same placeholder rule); title; overview paragraph; "What I did" with the 3 bullet points; buttons row.
+- Buttons: a primary amber button that depends on the type: "Visit live site ↗" for website, "View account ↗" for social, "Watch video ↗" for video. It opens ctaUrl in a new tab with rel="noopener noreferrer". If ctaUrl is empty, HIDE this button completely. Plus a secondary outlined "Start a similar project" button that closes the popup and smooth-scrolls to the Contact section.
+- Do NOT embed or autoplay any video; the video button only opens the link.
+- Close with the X button, the Esc key, or clicking the backdrop.
+- Lock the page scroll behind the popup while it is open. Move focus into the popup when it opens, trap focus inside, and return focus to the clicked card when it closes. Add role="dialog", aria-modal="true", and aria-labelledby pointing to the title.
+- Animation: fade and slight scale-up about 250ms, matching my site's animation style. Respect prefers-reduced-motion.
+- Mobile: show the popup as a bottom sheet that slides up (about 85% of the screen height), with a small drag handle on top. The content scrolls inside it, and the buttons row stays fixed at the bottom.
+
+TECH NOTES
+- Use the project's existing stack and styling approach. Plain React state, no new libraries.
+- Keep the code in one new section component plus the data array.
+- Do not add a category filter, a tools list, an image slider, video embeds, or next/previous project arrows.
+
+Rules: change only what is described. Do not touch the hero design, Skills, About, Contact form logic, navbar, footer, colors, or fonts. Do not refactor. Do not run extra checks beyond making sure the page loads. Keep your reply to 2-3 sentences.
