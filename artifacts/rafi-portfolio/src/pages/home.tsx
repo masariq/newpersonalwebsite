@@ -633,20 +633,6 @@ export default function HomePage() {
         <div className="availability"><span className="live-dot" aria-hidden="true" />Available for remote work worldwide</div>
       </section>
 
-      <section className="section skills-section" id="skills">
-        <div className="container">
-          <span className="eyebrow">SKILLS</span>
-          <h2 className="section-title">What I Bring to the Table</h2>
-          <SkillsCarousel />
-          <div className="tool-tags" aria-label="Tools">
-            {['Canva Pro', 'CapCut', 'WordPress', 'Elementor', 'Hostinger Email Marketing', 'Notion'].map((tool) => <span className="chip" key={tool}>{tool}</span>)}
-          </div>
-          <p className="skills-note">I also use AI tools to work faster without losing the human touch.<br /><strong>Whether you need one of these or all three, I make sure they work together.</strong></p>
-        </div>
-      </section>
-
-      <SelectedWorkSection />
-
       <section className="section" id="about">
         <div className="container about-grid">
           <div className="portrait-placeholder" data-testid="img-about-portrait">
@@ -668,6 +654,20 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      <section className="section skills-section" id="skills">
+        <div className="container">
+          <span className="eyebrow">SKILLS</span>
+          <h2 className="section-title">What I Bring to the Table</h2>
+          <SkillsCarousel />
+          <div className="tool-tags" aria-label="Tools">
+            {['Canva Pro', 'CapCut', 'WordPress', 'Elementor', 'Hostinger Email Marketing', 'Notion'].map((tool) => <span className="chip" key={tool}>{tool}</span>)}
+          </div>
+          <p className="skills-note">I also use AI tools to work faster without losing the human touch.<br /><strong>Whether you need one of these or all three, I make sure they work together.</strong></p>
+        </div>
+      </section>
+
+      <SelectedWorkSection />
 
       <section className="section" style={{ paddingTop: 5 }}>
         <div className="container">
