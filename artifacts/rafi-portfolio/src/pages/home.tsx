@@ -1,5 +1,6 @@
-import { useCallback, useLayoutEffect, useRef, useState, type KeyboardEvent, type TouchEvent } from 'react';
-import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight, Clapperboard, Globe2, Image as ImageIcon, Share2 } from 'lucide-react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState, type KeyboardEvent, type TouchEvent } from 'react';
+import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight, Clapperboard, Globe2, Image as ImageIcon, Play, Share2, X } from 'lucide-react';
+import { createPortal } from 'react-dom';
 import { Link } from 'wouter';
 import { PageMeta } from '@/components/site-shell';
 import { WibClock } from '@/components/wib-clock';
@@ -14,13 +15,66 @@ const heroStripCards = [
   { id: 'hero-7', src: new URL('../../../../attached_assets/hero-7_1792046037042.jpg', import.meta.url).href, alt: 'Real estate website design' },
 ];
 
-const workItems = [
-  { title: 'Project 01', type: 'Video · Tools', text: 'A neutral placeholder for a selected video project.' },
-  { title: 'Project 02', type: 'Social · Tools', text: 'A neutral placeholder for a social media project.' },
-  { title: 'Project 03', type: 'Web · Tools', text: 'A neutral placeholder for a website project.' },
-  { title: 'Project 04', type: 'Video · Tools', text: 'A neutral placeholder for a content project.' },
-  { title: 'Project 05', type: 'Social · Tools', text: 'A neutral placeholder for a campaign project.' },
-  { title: 'Project 06', type: 'Web · Tools', text: 'A neutral placeholder for a digital project.' },
+type WorkProjectType = 'website' | 'social' | 'video';
+type WorkProject = {
+  id: string;
+  type: WorkProjectType;
+  label: string;
+  title: string;
+  summary: string;
+  overview: string;
+  whatIDid: string[];
+  image: string;
+  durationLabel?: string;
+  ctaUrl: string;
+};
+
+const selectedWorkProjects: WorkProject[] = [
+  {
+    id: 'exporter',
+    type: 'website',
+    label: 'Website · Client project',
+    title: 'Exporter company website',
+    summary: 'A professional company profile for overseas buyers.',
+    overview: 'A credible, easy-to-navigate website that introduces the company, its products, and how to get in touch.',
+    whatIDid: ['Company profile and product pages', 'Clear contact and inquiry flow', 'Responsive design for desktop and mobile'],
+    image: 'work-1.jpg',
+    ctaUrl: '',
+  },
+  {
+    id: 'padel',
+    type: 'website',
+    label: 'Website · Client project',
+    title: 'Padel sports website',
+    summary: 'An energetic website for a padel venue.',
+    overview: 'A bold, sporty website that shares court information and makes it easy for players to get in touch.',
+    whatIDid: ['Court and facility pages', 'Clear contact information', 'Responsive design for desktop and mobile'],
+    image: 'work-2.jpg',
+    ctaUrl: '',
+  },
+  {
+    id: 'ayogas',
+    type: 'social',
+    label: 'Social media · Client project',
+    title: 'Ayogas social media management',
+    summary: 'Content planning and consistent posting for a growing brand.',
+    overview: "Ongoing management of the brand's social channels, from planning content to publishing and engaging with the community.",
+    whatIDid: ['Content planning and posting schedule', 'Post design and publishing', 'Community engagement and monitoring'],
+    image: 'work-3.jpg',
+    ctaUrl: '',
+  },
+  {
+    id: 'video',
+    type: 'video',
+    label: 'Video · Client project',
+    title: 'Short-form video edit',
+    summary: 'Fast, clean edits made for reels and short videos.',
+    overview: 'A short-form video edited for social platforms, with tight pacing, captions, and sound that keep viewers watching.',
+    whatIDid: ['Editing and pacing', 'Captions and sound', 'Formatting for vertical platforms'],
+    image: 'work-4.jpg',
+    durationLabel: '',
+    ctaUrl: '',
+  },
 ];
 
 const skillSlides = [
@@ -373,6 +427,188 @@ function SkillsCarousel() {
   );
 }
 
+function SelectedWorkSection() {
+  const [activeProject, setActiveProject] = useState<WorkProject | null>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const returnFocusRef = useRef<HTMLButtonElement | null>(null);
+  const closeProject = useCallback(() => setActiveProject(null), []);
+
+  useEffect(() => {
+    if (!activeProject) return;
+    const dialog = dialogRef.current;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    const focusFrame = window.requestAnimationFrame(() => closeButtonRef.current?.focus());
+
+    const handleKeyDown = (event: globalThis.KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        closeProject();
+        return;
+      }
+      if (event.key !== 'Tab' || !dialog) return;
+
+      const focusable = dialog.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])');
+      if (!focusable.length) {
+        event.preventDefault();
+        dialog.focus();
+        return;
+      }
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      const focusIsOutside = !dialog.contains(document.activeElement);
+      if (event.shiftKey && (document.activeElement === first || focusIsOutside)) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && (document.activeElement === last || focusIsOutside)) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.cancelAnimationFrame(focusFrame);
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = previousOverflow;
+      returnFocusRef.current?.focus();
+    };
+  }, [activeProject, closeProject]);
+
+  const cardAction = (project: WorkProject) => {
+    if (project.type === 'website') return 'View project ↗';
+    if (project.type === 'social') return 'View details ↗';
+    return 'Watch video ↗';
+  };
+  const modalAction = (project: WorkProject) => {
+    if (project.type === 'website') return 'Visit live site ↗';
+    if (project.type === 'social') return 'View account ↗';
+    return 'Watch video ↗';
+  };
+
+  return (
+    <section className="section selected-work-section" id="work" aria-labelledby="selected-work-title">
+      <div className="container">
+        <div className="selected-work-heading">
+          <span className="eyebrow">WORK</span>
+          <h2 className="section-title" id="selected-work-title">Selected work</h2>
+          <p className="section-intro">Websites first, with social media and video work alongside.</p>
+        </div>
+        <div className="selected-work-grid">
+          {selectedWorkProjects.map((project) => (
+            <button
+              className="selected-work-card"
+              key={project.id}
+              type="button"
+              aria-haspopup="dialog"
+              aria-label={`${project.title}: ${project.summary}`}
+              onClick={(event) => {
+                returnFocusRef.current = event.currentTarget;
+                setActiveProject(project);
+              }}
+            >
+              <span className="selected-work-image">
+                <span className="selected-work-placeholder" aria-hidden="true"><ImageIcon size={28} strokeWidth={1.5} /></span>
+                <img
+                  src={`/assets/${project.image}`}
+                  alt={project.title}
+                  loading="lazy"
+                  onError={(event) => { event.currentTarget.style.display = 'none'; }}
+                />
+                {project.type === 'video' && <span className="selected-work-play" aria-hidden="true"><Play size={19} fill="currentColor" /></span>}
+                {project.type === 'video' && project.durationLabel && <span className="selected-work-duration">{project.durationLabel}</span>}
+              </span>
+              <span className="selected-work-card-copy">
+                <span className="selected-work-label">{project.label}</span>
+                <span className="selected-work-card-title" role="heading" aria-level={3}>{project.title}</span>
+                <span className="selected-work-summary">{project.summary}</span>
+                <span className="selected-work-card-action">{cardAction(project)}</span>
+              </span>
+            </button>
+          ))}
+        </div>
+        <div className="selected-work-more">
+          <a
+            href="https://contra.com/rafi_ariq_maulana_rp3a493p"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="pill-button pill-button-outline selected-work-more-button"
+          >
+            See more on Contra <ArrowUpRight size={14} />
+          </a>
+        </div>
+      </div>
+
+      {activeProject && createPortal(
+        <div
+          className="selected-work-backdrop"
+          onClick={(event) => {
+            if (event.target === event.currentTarget) closeProject();
+          }}
+        >
+          <div
+            className="selected-work-dialog"
+            ref={dialogRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="selected-work-dialog-title"
+            tabIndex={-1}
+          >
+            <span className="selected-work-handle" aria-hidden="true" />
+            <div className="selected-work-dialog-header">
+              <span className="selected-work-label">{activeProject.label}</span>
+              <button
+                ref={closeButtonRef}
+                className="selected-work-close"
+                type="button"
+                aria-label="Close project details"
+                onClick={closeProject}
+              >
+                <X size={18} />
+              </button>
+            </div>
+            <div className="selected-work-dialog-body">
+              <div className="selected-work-image selected-work-dialog-image">
+                <span className="selected-work-placeholder" aria-hidden="true"><ImageIcon size={34} strokeWidth={1.5} /></span>
+                <img
+                  src={`/assets/${activeProject.image}`}
+                  alt={activeProject.title}
+                  loading="lazy"
+                  onError={(event) => { event.currentTarget.style.display = 'none'; }}
+                />
+                {activeProject.type === 'video' && activeProject.durationLabel && <span className="selected-work-duration">{activeProject.durationLabel}</span>}
+              </div>
+              <h2 className="selected-work-dialog-title" id="selected-work-dialog-title">{activeProject.title}</h2>
+              <p className="selected-work-overview">{activeProject.overview}</p>
+              <h3 className="selected-work-what-title">What I did</h3>
+              <ul className="selected-work-what-list">
+                {activeProject.whatIDid.map((item) => <li key={item}>{item}</li>)}
+              </ul>
+            </div>
+            <div className="selected-work-dialog-actions">
+              {activeProject.ctaUrl && (
+                <a
+                  className="pill-button"
+                  href={activeProject.ctaUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {modalAction(activeProject)}
+                </a>
+              )}
+              <Link href="/contact" className="pill-button pill-button-outline" onClick={closeProject}>
+                Start a similar project
+              </Link>
+            </div>
+          </div>
+        </div>,
+        document.body,
+      )}
+    </section>
+  );
+}
+
 export default function HomePage() {
   return (
     <main>
@@ -392,6 +628,20 @@ export default function HomePage() {
         <div className="availability"><span className="live-dot" aria-hidden="true" />Available for remote work worldwide</div>
       </section>
 
+      <section className="section skills-section" id="skills">
+        <div className="container">
+          <span className="eyebrow">SKILLS</span>
+          <h2 className="section-title">What I Bring to the Table</h2>
+          <SkillsCarousel />
+          <div className="tool-tags" aria-label="Tools">
+            {['Canva Pro', 'CapCut', 'WordPress', 'Elementor', 'Hostinger Email Marketing', 'Notion'].map((tool) => <span className="chip" key={tool}>{tool}</span>)}
+          </div>
+          <p className="skills-note">I also use AI tools to work faster without losing the human touch.<br /><strong>Whether you need one of these or all three, I make sure they work together.</strong></p>
+        </div>
+      </section>
+
+      <SelectedWorkSection />
+
       <section className="section" id="about">
         <div className="container about-grid">
           <div className="portrait-placeholder" data-testid="img-about-portrait">
@@ -410,49 +660,6 @@ export default function HomePage() {
             <div className="button-row">
               <Link href="/contact" className="pill-button" data-testid="link-about-contact">Let's Work Together <ArrowUpRight size={15} /></Link>
             </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="section skills-section" id="skills">
-        <div className="container">
-          <span className="eyebrow">SKILLS</span>
-          <h2 className="section-title">What I Bring to the Table</h2>
-          <SkillsCarousel />
-          <div className="tool-tags" aria-label="Tools">
-            {['Canva Pro', 'CapCut', 'WordPress', 'Elementor', 'Hostinger Email Marketing', 'Notion'].map((tool) => <span className="chip" key={tool}>{tool}</span>)}
-          </div>
-          <p className="skills-note">I also use AI tools to work faster without losing the human touch.<br /><strong>Whether you need one of these or all three, I make sure they work together.</strong></p>
-        </div>
-      </section>
-
-      <section className="section" id="work">
-        <div className="container">
-          <div className="work-head">
-            <div>
-              <span className="eyebrow">WORK</span>
-              <h2 className="section-title">Selected Work</h2>
-              <p className="section-intro">A few projects I'm proud of, across video, social media, and web.</p>
-            </div>
-          </div>
-          <div className="showreel" role="img" aria-label="Showreel video placeholder" data-testid="img-showreel-placeholder">
-            <span className="play-mark" aria-hidden="true"><span style={{ fontSize: 20, marginLeft: 4 }}>▶</span></span>
-            <span className="showreel-label">SHOWREEL PLACEHOLDER</span>
-          </div>
-          <div className="project-grid">
-            {workItems.map((project, index) => (
-              <article className="project-card" key={project.title} data-testid={`card-project-${index + 1}`}>
-                <div className="project-art" role="img" aria-label={`Neutral image placeholder for ${project.title}`} />
-                <div className="project-meta">
-                  <h3>{project.title}</h3>
-                  <small>{project.type}</small>
-                  <p>{project.text}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-          <div className="button-row" style={{ justifyContent: 'center', marginTop: 30 }}>
-            <Link href="/contact" className="pill-button" data-testid="link-work-contact">Let's Work Together <ArrowUpRight size={15} /></Link>
           </div>
         </div>
       </section>
